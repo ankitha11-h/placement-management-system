@@ -36,7 +36,13 @@ const studentSchema = new mongoose.Schema({
     graduationYear: {
         type: Number,
         required: true
-    }
+    },
+
+    status: {
+        type: String,
+        enum: ["not-placed", "placed"],
+        default: "not-placed"
+    },
 
 }, { timestamps: true });
 
