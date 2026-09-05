@@ -1,5 +1,11 @@
 import express from 'express'
+
 import studentRouter from './routes/student.routes.js';
+import companyRouter from './routes/company.routes.js';
+import placementDriveRouter from './routes/placementDrive.routes.js';
+import applicationRouter from './routes/application.routes.js';
+
+import errorMiddleware from './middlewares/error.middlewares.js';
 
 const app = express();
 
@@ -13,5 +19,10 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/students', studentRouter);
+app.use('/api/companies', companyRouter);
+app.use('/api/placement-drives', placementDriveRouter);
+app.use('/api/applications', applicationRouter);
+
+app.use(errorMiddleware);
 
 export default app
