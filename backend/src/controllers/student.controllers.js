@@ -13,7 +13,6 @@ const createStudent = asyncHandler(async (req, res) => {
 
 const getStudentById = asyncHandler(async (req, res) => {
     const student = await Student.findById(req.params.id);
-
     if (!student) {
         return res.status(404).json({
             success: false,
@@ -23,4 +22,15 @@ const getStudentById = asyncHandler(async (req, res) => {
     res.status(200).json(student);
 });
 
-export { getStudents, createStudent, getStudentById };
+const updateStudent = asyncHandler(async (req, res) => {
+    const student = await Student.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!student) {
+        return res.status(404).json({
+            success: false,
+            message: "Student not found"
+        });
+    }
+    res.status(200).json(student);
+});
+
+export { getStudents, createStudent, getStudentById, updateStudent };
