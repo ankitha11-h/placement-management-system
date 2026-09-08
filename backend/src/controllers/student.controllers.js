@@ -33,4 +33,18 @@ const updateStudent = asyncHandler(async (req, res) => {
     res.status(200).json(student);
 });
 
-export { getStudents, createStudent, getStudentById, updateStudent };
+const deleteStudent = asyncHandler(async (req, res) => {
+    const student = await Student.findByIdAndDelete(req.params.id);
+    if (!student) {
+        return res.status(404).json({
+            success: false,
+            message: "Student not found"
+        });
+    }
+    res.status(200).json({
+        success: true,
+        message: "Student deleted successfully"
+    });
+});
+
+export { getStudents, createStudent, getStudentById, updateStudent, deleteStudent };
