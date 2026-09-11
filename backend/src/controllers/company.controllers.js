@@ -23,7 +23,7 @@ const getCompanyById = asyncHandler(async (req, res) => {
 });
 
 const updateCompany = asyncHandler(async (req, res) => {
-    const company = await Company.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const company = await Company.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
     if (!company) {
         return res.status(404).json({
             success: false,

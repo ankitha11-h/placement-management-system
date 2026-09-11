@@ -74,7 +74,15 @@ const createApplication = asyncHandler(async (req, res) => {
 });
 
 const getApplications = asyncHandler(async (req, res) => {
-    const applications = await Application.find();
+    const applications = await Application
+        .find()
+        .populate('student')
+        .populate({
+            path: 'placementDrive',
+            populate: {
+                path: 'company',
+            }
+        })
     res.status(200).json({
         success: true,
         message: "Applications fetched successfully",

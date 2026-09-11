@@ -1,10 +1,6 @@
 import dotenv from 'dotenv';
-import dns from "dns";
 import app from './src/app.js';
 import connectDB from './src/config/db.js';
-
-
-dns.setServers(["2405:201:d02c:c072::c0a8:1d01"]);
 
 
 dotenv.config();

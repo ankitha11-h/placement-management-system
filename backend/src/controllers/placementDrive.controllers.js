@@ -23,7 +23,7 @@ const getPlacementDriveById = asyncHandler(async (req, res) => {
 });
 
 const updatePlacementDrive = asyncHandler(async (req, res) => {
-    const placementDrive = await PlacementDrive.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const placementDrive = await PlacementDrive.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
     if (!placementDrive) {
         return res.status(404).json({
             success: false,
