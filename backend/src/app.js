@@ -4,6 +4,7 @@ import studentRouter from './routes/student.routes.js';
 import companyRouter from './routes/company.routes.js';
 import placementDriveRouter from './routes/placementDrive.routes.js';
 import applicationRouter from './routes/application.routes.js';
+import authRouter from './routes/auth.routes.js';
 
 import errorMiddleware from './middlewares/error.middlewares.js';
 
@@ -18,6 +19,7 @@ app.get('/', (req, res) => {
     res.send("Placement Management API is running")
 });
 
+app.use('/api/auth', authRouter);
 app.use('/api/students', studentRouter);
 app.use('/api/companies', companyRouter);
 app.use('/api/placement-drives', placementDriveRouter);
