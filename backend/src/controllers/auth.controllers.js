@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 import { User } from "../models/user.models.js";
 import bcrypt from "bcrypt";
 import asyncHandler from "../utils/asyncHandler.js";
@@ -68,6 +69,17 @@ const loginUser = asyncHandler(async (req, res) => {
         });
     }
 
+    const token = jwt.sign(
+        {
+            userId: user._id,
+            role: user.role
+        },
+        process.env.JWT_SECRET,
+        {
+            expiresIn: "1d"
+        }
+    );
+
     res.status(200).json({
         success: true,
         message: "Login successful",
@@ -75,7 +87,8 @@ const loginUser = asyncHandler(async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
-            role: user.role
+            role: user.role,
+            token
         }
     });
 });
