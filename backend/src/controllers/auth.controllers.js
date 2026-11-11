@@ -93,4 +93,59 @@ const loginUser = asyncHandler(async (req, res) => {
     });
 });
 
-export { registerUser, loginUser };
+const createAdmin = asyncHandler(async (req, res) => {
+    const adminSecret = req.headers["x-admin-secret"];
+    if (!adminSecret || !process.env.ADMIN_SECRET || adminSecret !== process.env.ADMIN_SECRET) {
+        return res.status(403).json({
+            success: false,
+            message: "Invalid admin secret"
+        });
+    }
+
+    const existingAdmin = await User.findOne({ role: "admin" });
+    if (existingAdmin) {
+        return res.status(403).json({
+            success: false,
+            message: "Admin account already exists"
+        });
+    }
+
+    const { name, email, password } = req.body;
+    if (!name || !email || !password) {
+        return res.status(400).json({
+            success: false,
+            message: "Name, email, and password are required"
+        });
+    }
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+        return res.status(400).json({
+            success: false,
+            message: "User with this email already exists"
+        });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const user = await User.create({
+        name,
+        email,
+        password: hashedPassword,
+        role: "admin"
+    });
+
+    res.status(201).json({
+        success: true,
+        message: "Admin created successfully",
+        data: {
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            role: user.role
+        }
+    });
+});
+
+export { registerUser, loginUser, createAdmin };

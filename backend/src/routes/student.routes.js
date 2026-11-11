@@ -5,10 +5,10 @@ import authorizeRoles from '../middlewares/role.middlewares.js';
 
 const router = express.Router();
 
-router.get('/', authMiddleware, getStudents);
-router.post('/', createStudent)
-router.get('/:id', getStudentById)
-router.put('/:id', updateStudent)
-router.delete('/:id', deleteStudent)
+router.get('/', authMiddleware, authorizeRoles('student', 'admin'), getStudents);
+router.post('/', authMiddleware, authorizeRoles('admin'), createStudent);
+router.get('/:id', authMiddleware, authorizeRoles('student', 'admin'), getStudentById);
+router.put('/:id', authMiddleware, authorizeRoles('admin'), updateStudent);
+router.delete('/:id', authMiddleware, authorizeRoles('admin'), deleteStudent);
 
 export default router;
