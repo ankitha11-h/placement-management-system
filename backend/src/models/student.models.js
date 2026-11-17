@@ -1,6 +1,13 @@
 import mongoose from 'mongoose';
 
 const studentSchema = new mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        unique: true,
+        sparse: true
+    },
+
     name: {
         type: String,
         required: true
@@ -42,8 +49,7 @@ const studentSchema = new mongoose.Schema({
         type: String,
         enum: ["not-placed", "placed"],
         default: "not-placed"
-    },
-
+    }
 }, { timestamps: true });
 
 export const Student = mongoose.model('Student', studentSchema);
